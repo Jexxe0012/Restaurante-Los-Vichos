@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Los Vichos 🌴 – Come Rico, Vive Brutal</title>
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet"/>
+  <!-- Google Fonts: Bebas Neue (display) + DM Sans (body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;700&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
+
+  <style>
+    /* ============================================================
+       VARIABLES Y RESET
+    ============================================================ */
+    :root {
+      --bg-deep:      #080b12;
+      --bg-card:      #0f1420;
+      --bg-card2:     #121829;
+      --neon-purple:  #c084fc;
+      --neon-pink:    #f472b6;
+      --neon-orange:  #fb923c;
+      --neon-blue:    #38bdf8;
+      --neon-yellow:  #fde047;
+      --text-bright:  #f0f4ff;
+      --text-muted:   #8896b3;
+      --border-glow:  rgba(192, 132, 252, 0.25);
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-head:    'Syne', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --radius-card:  18px;
+      --transition:   0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--bg-deep);
+      color: var(--text-bright);
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* ── Textura de grano sobre toda la página ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.5;
+    }
+
+    /* ============================================================
+       SCROLLBAR PERSONALIZADA
+    ============================================================ */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--neon-purple); border-radius: 99px; }
+
+    /* ============================================================
+       NAVBAR
+    ============================================================ */
+    #mainNav {
+      background: rgba(8, 11, 18, 0.72);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border-glow);
+      transition: background var(--transition);
+      z-index: 1050;
+    }
+
+    .navbar-brand {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 2px;
+      background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink), var(--neon-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    .nav-link {
+      font-family: var(--font-body);
+      font-weight: 500;
+      color: var(--text-muted) !important;
+      font-size: 0.88rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      transition: color var(--transition);
+      position: relative;
+      padding-bottom: 4px !important;
+    }
+    .nav-link::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 2px;
+      background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+      transition: width var(--transition);
+      border-radius: 2px;
+    }
+    .nav-link:hover { color: var(--text-bright) !important; }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Carrito en navbar */
+    #cart-nav-btn {
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+      border: none;
+      border-radius: 99px;
+      padding: 6px 16px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: #fff;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+      position: relative;
+    }
+    #cart-nav-btn:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 18px rgba(192, 132, 252, 0.55);
+    }
+    #cart-count {
+      position: absolute;
+      top: -6px; right: -6px;
+      background: var(--neon-orange);
+      color: #000;
+      border-radius: 50%;
+      width: 18px; height: 18px;
+      font-size: 0.68rem;
+      font-weight: 900;
+      display: flex; align-items: center; justify-content: center;
+      display: none;
+    }
+
+    /* ============================================================
+       HERO
+    ============================================================ */
+    #hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      overflow: hidden;
+      padding-top: 90px;
+
+      /* 🖼️ CAMBIA AQUÍ la imagen de fondo del Hero */
+      background:
+        linear-gradient(160deg,
+          rgba(8,11,18,0.92) 0%,
+          rgba(8,11,18,0.65) 50%,
+          rgba(8,11,18,0.90) 100%),
+        url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=1600&q=80') center/cover no-repeat;
+    }
+
+    /* Orbes de luz de fondo */
+    .orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      pointer-events: none;
+      animation: drift 8s ease-in-out infinite alternate;
+    }
+    .orb-1 { width: 500px; height: 500px; background: rgba(192,132,252,0.18); top: -10%; left: -8%; }
+    .orb-2 { width: 380px; height: 380px; background: rgba(244,114,182,0.15); bottom: 5%; right: -5%; animation-delay: -3s; }
+    .orb-3 { width: 280px; height: 280px; background: rgba(251,146,60,0.12); top: 30%; right: 15%; animation-delay: -5s; }
+
+    @keyframes drift {
+      from { transform: translate(0, 0) scale(1); }
+      to   { transform: translate(30px, 20px) scale(1.08); }
+    }
+
+    .hero-tag {
+      display: inline-block;
+      background: rgba(192,132,252,0.15);
+      border: 1px solid rgba(192,132,252,0.35);
+      border-radius: 99px;
+      padding: 5px 18px;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--neon-purple);
+      margin-bottom: 1.4rem;
+      font-weight: 600;
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 10vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 2px;
+      background: linear-gradient(135deg, #fff 20%, var(--neon-pink) 55%, var(--neon-orange) 90%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .btn-glow {
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+      border: none;
+      color: #fff;
+      font-weight: 700;
+      font-size: 1rem;
+      padding: 14px 36px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+      transition: transform var(--transition), box-shadow var(--transition);
+      box-shadow: 0 0 30px rgba(192,132,252,0.4);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-glow:hover {
+      transform: translateY(-3px) scale(1.04);
+      box-shadow: 0 0 50px rgba(192,132,252,0.65);
+      color: #fff;
+    }
+
+    .btn-outline-glow {
+      background: transparent;
+      border: 2px solid rgba(192,132,252,0.4);
+      color: var(--neon-purple);
+      font-weight: 600;
+      font-size: 1rem;
+      padding: 12px 30px;
+      border-radius: 99px;
+      letter-spacing: 0.05em;
+      transition: all var(--transition);
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-outline-glow:hover {
+      background: rgba(192,132,252,0.1);
+      border-color: var(--neon-purple);
+      color: var(--neon-purple);
+      transform: translateY(-2px);
+    }
+
+    /* Stats flotantes */
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3.5rem;
+    }
+    .stat-item { display: flex; flex-direction: column; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      line-height: 1;
+      background: linear-gradient(90deg, var(--neon-orange), var(--neon-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .stat-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--text-muted); margin-top: 2px; }
+
+    /* Imagen decorativa hero */
+    .hero-img-wrap {
+      position: relative;
+      display: flex;
+      justify-content: center;
+    }
+    .hero-img-card {
+      width: min(420px, 90%);
+      border-radius: 28px;
+      overflow: hidden;
+      border: 1px solid var(--border-glow);
+      box-shadow: 0 0 60px rgba(192,132,252,0.2), 0 30px 60px rgba(0,0,0,0.5);
+      position: relative;
+    }
+    /* 🖼️ CAMBIA AQUÍ la imagen del plato en el Hero */
+    .hero-img-card img {
+      width: 100%;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      display: block;
+    }
+    .hero-img-badge {
+      position: absolute;
+      bottom: 20px; left: 50%;
+      transform: translateX(-50%);
+      background: rgba(8,11,18,0.75);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--border-glow);
+      border-radius: 14px;
+      padding: 12px 20px;
+      white-space: nowrap;
+      display: flex; align-items: center; gap: 12px;
+    }
+    .badge-emoji { font-size: 1.6rem; }
+    .badge-text { display: flex; flex-direction: column; }
+    .badge-text strong { font-size: 0.9rem; font-weight: 700; }
+    .badge-text span { font-size: 0.72rem; color: var(--text-muted); }
+
+    /* ============================================================
+       SECCIÓN GENÉRICA
+    ============================================================ */
+    section { padding: 100px 0; }
+
+    .section-tag {
+      display: inline-block;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--neon-purple);
+      font-weight: 700;
+      margin-bottom: 0.6rem;
+    }
+    .section-title {
+      font-family: var(--font-head);
+      font-size: clamp(2rem, 4vw, 3.2rem);
+      font-weight: 800;
+      line-height: 1.1;
+    }
+    .section-title span {
+      background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ============================================================
+       FILTROS DE MENÚ
+    ============================================================ */
+    .menu-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 3rem;
+    }
+
+    .filter-btn {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-muted);
+      padding: 10px 24px;
+      border-radius: 99px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+      letter-spacing: 0.04em;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .filter-btn:hover {
+      border-color: var(--neon-purple);
+      color: var(--neon-purple);
+      background: rgba(192,132,252,0.08);
+    }
+    .filter-btn.active {
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+      border-color: transparent;
+      color: #fff;
+      box-shadow: 0 0 22px rgba(192,132,252,0.4);
+    }
+
+    /* ============================================================
+       TARJETAS DE PLATOS
+    ============================================================ */
+    #menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px;
+    }
+
+    .dish-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(255,255,255,0.07);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
+      cursor: pointer;
+      position: relative;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.5s ease forwards;
+    }
+    .dish-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.4), 0 0 30px rgba(192,132,252,0.15);
+      border-color: rgba(192,132,252,0.3);
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 🖼️ CAMBIA AQUÍ el aspect-ratio de las fotos de platos */
+    .dish-img {
+      width: 100%;
+      aspect-ratio: 16/11;
+      object-fit: cover;
+      display: block;
+      transition: transform 0.5s ease;
+    }
+    .dish-card:hover .dish-img { transform: scale(1.06); }
+
+    .dish-img-wrap { overflow: hidden; position: relative; }
+
+    /* Badge de categoría */
+    .dish-badge {
+      position: absolute;
+      top: 12px; left: 12px;
+      background: rgba(8,11,18,0.75);
+      backdrop-filter: blur(8px);
+      border-radius: 99px;
+      padding: 4px 12px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--neon-purple);
+      border: 1px solid rgba(192,132,252,0.3);
+    }
+
+    .dish-body { padding: 20px; }
+
+    .dish-name {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .dish-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .dish-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .dish-price {
+      font-family: var(--font-display);
+      font-size: 1.55rem;
+      background: linear-gradient(90deg, var(--neon-orange), var(--neon-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+
+    /* Botón agregar al carrito */
+    .btn-add {
+      background: rgba(192,132,252,0.12);
+      border: 1px solid rgba(192,132,252,0.3);
+      color: var(--neon-purple);
+      border-radius: 99px;
+      padding: 8px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-family: var(--font-body);
+      display: flex; align-items: center; gap: 6px;
+    }
+    .btn-add:hover {
+      background: linear-gradient(135deg, var(--neon-purple), var(--neon-pink));
+      border-color: transparent;
+      color: #fff;
+      transform: scale(1.05);
+      box-shadow: 0 0 18px rgba(192,132,252,0.4);
+    }
+    .btn-add.added {
+      background: linear-gradient(135deg, var(--neon-orange), var(--neon-yellow));
+      border-color: transparent;
+      color: #000;
+    }
+
+    /* ============================================================
+       CARRITO LATERAL (DRAWER)
+    ============================================================ */
+    #cart-drawer {
+      position: fixed;
+      top: 0; right: -420px;
+      width: min(420px, 100vw);
+      height: 100%;
+      background: var(--bg-card2);
+      border-left: 1px solid var(--border-glow);
+      z-index: 2000;
+      transition: right 0.4s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column;
+      box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+    }
+    #cart-drawer.open { right: 0; }
+
+    #cart-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.55);
+      backdrop-filter: blur(4px);
+      z-index: 1999;
+      display: none;
+    }
+    #cart-overlay.show { display: block; }
+
+    .cart-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border-glow);
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .cart-header h5 {
+      font-family: var(--font-head);
+      font-size: 1.2rem;
+      font-weight: 800;
+      margin: 0;
+    }
+    .cart-close {
+      background: rgba(255,255,255,0.07);
+      border: none;
+      color: var(--text-muted);
+      width: 36px; height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: all var(--transition);
+      font-size: 1.1rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .cart-close:hover { background: rgba(244,114,182,0.2); color: var(--neon-pink); }
+
+    #cart-items-list { flex: 1; overflow-y: auto; padding: 20px; }
+
+    .cart-empty {
+      text-align: center;
+      color: var(--text-muted);
+      padding: 60px 0;
+    }
+    .cart-empty-icon { font-size: 3rem; margin-bottom: 12px; }
+
+    .cart-item {
+      display: flex; align-items: center; gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      animation: fadeInUp 0.3s ease forwards;
+    }
+    .cart-item-img {
+      width: 58px; height: 58px;
+      border-radius: 10px;
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+    .cart-item-info { flex: 1; }
+    .cart-item-name { font-weight: 700; font-size: 0.88rem; margin-bottom: 2px; }
+    .cart-item-price { font-size: 0.78rem; color: var(--neon-orange); font-weight: 600; }
+    .cart-item-qty {
+      display: flex; align-items: center; gap: 8px;
+    }
+    .qty-btn {
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--text-bright);
+      width: 28px; height: 28px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center;
+      line-height: 1;
+    }
+    .qty-btn:hover { background: var(--neon-purple); border-color: transparent; }
+    .qty-num { font-weight: 700; font-size: 0.9rem; min-width: 18px; text-align: center; }
+
+    .cart-footer {
+      padding: 20px 24px 28px;
+      border-top: 1px solid var(--border-glow);
+    }
+    .cart-total-row {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 16px;
+    }
+    .cart-total-label { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+    .cart-total-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      background: linear-gradient(90deg, var(--neon-orange), var(--neon-yellow));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Botón WhatsApp en el carrito */
+    .btn-whatsapp {
+      width: 100%;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      border: none;
+      color: #fff;
+      font-weight: 800;
+      font-size: 1rem;
+      padding: 16px;
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+      font-family: var(--font-body);
+      box-shadow: 0 0 30px rgba(37,211,102,0.3);
+    }
+    .btn-whatsapp:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 45px rgba(37,211,102,0.5);
+    }
+
+    /* ============================================================
+       BOTÓN FLOTANTE DE WHATSAPP
+    ============================================================ */
+    #fab-whatsapp {
+      position: fixed;
+      bottom: 28px; right: 28px;
+      z-index: 1500;
+      width: 60px; height: 60px;
+      background: linear-gradient(135deg, #25D366, #128C7E);
+      border: none;
+      border-radius: 50%;
+      color: #fff;
+      font-size: 1.6rem;
+      cursor: pointer;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 6px 30px rgba(37,211,102,0.5);
+      transition: transform var(--transition), box-shadow var(--transition);
+      animation: pulseFab 2.5s ease-in-out infinite;
+    }
+    #fab-whatsapp:hover {
+      transform: scale(1.12);
+      box-shadow: 0 8px 40px rgba(37,211,102,0.7);
+      animation: none;
+    }
+    @keyframes pulseFab {
+      0%, 100% { box-shadow: 0 6px 30px rgba(37,211,102,0.5); }
+      50%       { box-shadow: 0 6px 50px rgba(37,211,102,0.8); }
+    }
+
+    /* ============================================================
+       SECCIÓN NOSOTROS / AMBIENTE
+    ============================================================ */
+    #nosotros {
+      background: linear-gradient(135deg, rgba(192,132,252,0.05), rgba(244,114,182,0.03));
+    }
+    .vibe-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 16px;
+    }
+    .vibe-img {
+      border-radius: 16px;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .vibe-img.tall { aspect-ratio: 2/3; grid-row: span 2; }
+    .vibe-img.wide { aspect-ratio: 3/2; }
+
+    .vibe-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-glow);
+      border-radius: 20px;
+      padding: 28px;
+    }
+    .vibe-icon { font-size: 2rem; margin-bottom: 12px; }
+    .vibe-card h5 {
+      font-family: var(--font-head);
+      font-size: 1.05rem;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .vibe-card p { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; margin: 0; }
+
+    /* ============================================================
+       TOAST NOTIFICACIÓN
+    ============================================================ */
+    #toast-container {
+      position: fixed;
+      bottom: 100px; right: 28px;
+      z-index: 3000;
+      display: flex; flex-direction: column; gap: 10px;
+    }
+    .toast-msg {
+      background: var(--bg-card2);
+      border: 1px solid var(--border-glow);
+      border-radius: 12px;
+      padding: 12px 18px;
+      font-size: 0.84rem;
+      font-weight: 600;
+      display: flex; align-items: center; gap: 10px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+      animation: slideIn 0.3s ease, fadeOut 0.3s ease 2.2s forwards;
+      max-width: 280px;
+    }
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(40px); }
+      to   { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes fadeOut {
+      to { opacity: 0; transform: translateX(40px); }
+    }
+
+    /* ============================================================
+       FOOTER
+    ============================================================ */
+    footer {
+      background: rgba(255,255,255,0.02);
+      border-top: 1px solid var(--border-glow);
+      padding: 60px 0 30px;
+    }
+    .footer-logo {
+      font-family: var(--font-display);
+      font-size: 3rem;
+      letter-spacing: 3px;
+      background: linear-gradient(90deg, var(--neon-purple), var(--neon-pink), var(--neon-orange));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+    }
+    .footer-desc {
+      color: var(--text-muted);
+      font-size: 0.88rem;
+      line-height: 1.7;
+      max-width: 340px;
+    }
+    .footer-link {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.88rem;
+      transition: color var(--transition);
+      display: flex; align-items: center; gap: 8px;
+    }
+    .footer-link:hover { color: var(--neon-purple); }
+    .footer-heading {
+      font-family: var(--font-head);
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--neon-purple);
+      margin-bottom: 16px;
+      font-weight: 700;
+    }
+    .footer-divider {
+      border-color: rgba(255,255,255,0.07);
+      margin: 40px 0 24px;
+    }
+    .footer-copy {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* ============================================================
+       SCROLL REVEAL (manejado con JS + clases CSS)
+    ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+    ============================================================ */
+    @media (max-width: 992px) {
+      .hero-img-wrap { margin-top: 60px; }
+      .vibe-grid { grid-template-columns: repeat(2, 1fr); }
+      .vibe-img.tall { grid-row: span 1; aspect-ratio: 3/2; }
+    }
+    @media (max-width: 576px) {
+      .hero-stats { gap: 1.5rem; }
+      .vibe-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =====================================================
+       NAVBAR
+  ===================================================== -->
+  <nav id="mainNav" class="navbar navbar-expand-lg fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#hero">Los Vichos</a>
+      <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+        <span class="navbar-toggler-icon" style="filter:invert(1);"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navMenu">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 gap-lg-3 align-items-lg-center">
+          <li class="nav-item"><a class="nav-link" href="#menu">Menú</a></li>
+          <li class="nav-item"><a class="nav-link" href="#nosotros">Nosotros</a></li>
+          <li class="nav-item"><a class="nav-link" href="#contacto">Contacto</a></li>
+          <li class="nav-item ms-lg-2">
+            <button id="cart-nav-btn" onclick="toggleCart()">
+              🛒 Mi pedido
+              <span id="cart-count">0</span>
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- =====================================================
+       HERO
+  ===================================================== -->
+  <section id="hero">
+    <!-- Orbes decorativos -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <div class="container">
+      <div class="row align-items-center gy-5">
+        <!-- Texto -->
+        <div class="col-lg-6">
+          <div class="hero-tag">🌴 Food &amp; Vibras · Est. 2024</div>
+          <h1 class="hero-title">LOS<br>VICHOS</h1>
+          <p class="hero-sub mt-4">
+            El spot donde cada plato tiene su beat. Sabores que te pegan distinto,
+            ambiente que no te da break. Come rico, vive brutal. 🔥
+          </p>
+          <div class="d-flex flex-wrap gap-3 mt-5">
+            <a href="#menu" class="btn-glow">Ver el Menú →</a>
+            <a href="#nosotros" class="btn-outline-glow">Conocer el spot</a>
+          </div>
+          <!-- Estadísticas -->
+          <div class="hero-stats">
+            <div class="stat-item">
+              <span class="stat-num">50+</span>
+              <span class="stat-label">Platos únicos</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">4.9⭐</span>
+              <span class="stat-label">Rating</span>
+            </div>
+            <div class="stat-item">
+              <span class="stat-num">2K+</span>
+              <span class="stat-label">Clientes felices</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Imagen -->
+        <div class="col-lg-6 hero-img-wrap">
+          <div class="hero-img-card">
+            <!-- 🖼️ CAMBIA AQUÍ la foto del plato principal del Hero -->
+            <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=800&q=80" alt="Plato estrella"/>
+            <div class="hero-img-badge">
+              <span class="badge-emoji">🍔</span>
+              <div class="badge-text">
+                <strong>Vicho Burger</strong>
+                <span>Plato más pedido ✨</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       MENÚ INTERACTIVO
+  ===================================================== -->
+  <section id="menu">
+    <div class="container">
+      <div class="text-center mb-5 reveal">
+        <span class="section-tag">🍽️ Nuestro menú</span>
+        <h2 class="section-title">Elige tu <span>vibra</span></h2>
+        <p class="mt-3" style="color:var(--text-muted); font-size:0.95rem; max-width:480px; margin: 12px auto 0;">
+          Todo hecho con amor y con sazón. Filtra por lo que se te antoje.
+        </p>
+      </div>
+
+      <!-- Botones de filtrado -->
+      <!-- 📝 AGREGA O ELIMINA CATEGORÍAS AQUÍ: solo añade el data-filter y un icono -->
+      <div class="menu-filters reveal">
+        <button class="filter-btn active" data-filter="all">🍽️ Todos</button>
+        <button class="filter-btn" data-filter="carne">🥩 Carne</button>
+        <button class="filter-btn" data-filter="mar-tierra">🦐 Mar y Tierra</button>
+        <button class="filter-btn" data-filter="tacos">🌮 Tacos</button>
+        <button class="filter-btn" data-filter="hamburguesas">🍔 Hamburguesas</button>
+      </div>
+
+      <!-- Grid de platos — controlado por JS -->
+      <div id="menu-grid"></div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       SECCIÓN NOSOTROS
+  ===================================================== -->
+  <section id="nosotros">
+    <div class="container">
+      <div class="row gy-5 align-items-center">
+        <!-- Galería -->
+        <div class="col-lg-6 reveal">
+          <div class="vibe-grid">
+            <!-- 🖼️ CAMBIA AQUÍ las fotos de la galería "Nosotros" -->
+            <img class="vibe-img tall"
+                 src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80"
+                 alt="Ambiente Los Vichos"/>
+            <img class="vibe-img wide"
+                 src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80"
+                 alt="Nuestros platos"/>
+            <img class="vibe-img wide"
+                 src="https://images.unsplash.com/photo-1565299585323-38d6b0865b47?w=600&q=80"
+                 alt="Los Vichos"/>
+          </div>
+        </div>
+
+        <!-- Texto + tarjetas -->
+        <div class="col-lg-6 ps-lg-5 reveal">
+          <span class="section-tag">🌴 El spot</span>
+          <h2 class="section-title mb-4">El lugar donde <span>el sabor</span> manda</h2>
+          <p style="color:var(--text-muted); font-size:0.95rem; line-height:1.75; margin-bottom:2rem;">
+            En Los Vichos creemos que comer rico es un derecho, no un privilegio.
+            Nacimos del barrio con ingredientes frescos, recetas propias y toda
+            la vibra del verano en cada plato. Sin pretextos, sin posers. Solo fuego. 🔥
+          </p>
+          <div class="row g-3">
+            <div class="col-6">
+              <div class="vibe-card">
+                <div class="vibe-icon">🌶️</div>
+                <h5>Sazón auténtico</h5>
+                <p>Ingredientes frescos y recetas que no encontrarás en otro lado.</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="vibe-card">
+                <div class="vibe-icon">🎵</div>
+                <h5>Vibra de otro nivel</h5>
+                <p>Ambiente, música y gente cool. El spot perfecto para cualquier momento.</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="vibe-card">
+                <div class="vibe-icon">⚡</div>
+                <h5>Entrega rápida</h5>
+                <p>Tu pedido listo en minutos, sin que el hambre te gane la partida.</p>
+              </div>
+            </div>
+            <div class="col-6">
+              <div class="vibe-card">
+                <div class="vibe-icon">💬</div>
+                <h5>Pide por WhatsApp</h5>
+                <p>Arma tu pedido aquí y mándanos un mensajito. Así de fácil.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================
+       FOOTER
+  ===================================================== -->
+  <footer id="contacto">
+    <div class="container">
+      <div class="row gy-5">
+        <div class="col-lg-4">
+          <div class="footer-logo mb-3">Los Vichos</div>
+          <p class="footer-desc">
+            Come rico, vive brutal. Tu spot favorito con la vibra de siempre.
+            Delivery, para llevar y comer en el local. 🌴
+          </p>
+        </div>
+
+        <div class="col-6 col-lg-2 offset-lg-2">
+          <div class="footer-heading">Menú</div>
+          <div class="d-flex flex-column gap-2">
+            <a href="#menu" class="footer-link">🥩 Carne</a>
+            <a href="#menu" class="footer-link">🦐 Mar y Tierra</a>
+            <a href="#menu" class="footer-link">🌮 Tacos</a>
+            <a href="#menu" class="footer-link">🍔 Hamburguesas</a>
+          </div>
+        </div>
+
+        <div class="col-6 col-lg-2">
+          <div class="footer-heading">Horario</div>
+          <div class="d-flex flex-column gap-2">
+            <!-- 📝 CAMBIA AQUÍ el horario del restaurante -->
+            <span class="footer-link" style="pointer-events:none;">Lun – Vie: 11am–10pm</span>
+            <span class="footer-link" style="pointer-events:none;">Sáb – Dom: 11am–12am</span>
+          </div>
+        </div>
+
+        <div class="col-lg-2">
+          <div class="footer-heading">Contacto</div>
+          <div class="d-flex flex-column gap-2">
+            <!-- 📝 CAMBIA AQUÍ el número de WhatsApp y dirección -->
+            <a href="https://wa.me/50300000000" target="_blank" class="footer-link">
+              <i class="bi bi-whatsapp" style="color:var(--neon-purple);"></i> WhatsApp
+            </a>
+            <a href="https://instagram.com/losvichos" target="_blank" class="footer-link">
+              <i class="bi bi-instagram" style="color:var(--neon-pink);"></i> Instagram
+            </a>
+            <span class="footer-link" style="pointer-events:none;">
+              <i class="bi bi-geo-alt" style="color:var(--neon-orange);"></i> San Salvador, SV
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <hr class="footer-divider"/>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+        <span class="footer-copy">© 2024 Los Vichos. Todos los derechos reservados. Hecho con 🔥</span>
+        <span class="footer-copy">Diseñado para los que saben comer.</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- =====================================================
+       CARRITO LATERAL (DRAWER)
+  ===================================================== -->
+  <div id="cart-overlay" onclick="toggleCart()"></div>
+  <aside id="cart-drawer">
+    <div class="cart-header">
+      <h5>🛒 Mi Pedido</h5>
+      <button class="cart-close" onclick="toggleCart()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div id="cart-items-list">
+      <!-- Contenido inyectado por JS -->
+    </div>
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span class="cart-total-label">Total del pedido:</span>
+        <span class="cart-total-value" id="cart-total">$0.00</span>
+      </div>
+      <button class="btn-whatsapp" onclick="sendToWhatsApp()">
+        <i class="bi bi-whatsapp" style="font-size:1.3rem;"></i>
+        Enviar pedido por WhatsApp
+      </button>
+    </div>
+  </aside>
+
+  <!-- Botón flotante WhatsApp -->
+  <button id="fab-whatsapp" onclick="toggleCart()" title="Ver mi pedido">
+    🛒
+  </button>
+
+  <!-- Toast container -->
+  <div id="toast-container"></div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    /* =================================================================
+       ██████  ██████  ███████ ██    ██ ██  ██████  ███████
+       ██   ██ ██   ██ ██      ██    ██ ██ ██    ██ ██
+       ██████  ██████  █████   ██    ██ ██ ██    ██ ███████
+       ██      ██   ██ ██       ██  ██  ██ ██    ██      ██
+       ██      ██   ██ ███████   ████   ██  ██████  ███████
+
+       PRECIOS EN DÓLARES. Para cambiar la moneda, busca el
+       símbolo '$' en todo el archivo y sustitúyelo.
+    ================================================================= */
+
+    /* -----------------------------------------------------------------
+       📋 BASE DE DATOS DEL MENÚ
+       Agrega, edita o elimina platos aquí.
+       Campos:
+         id        → identificador único (número)
+         name      → nombre del plato
+         desc      → descripción breve
+         price     → precio en números (ej: 8.50)
+         category  → debe coincidir con el data-filter del botón
+                     opciones: 'carne' | 'mar-tierra' | 'tacos' | 'hamburguesas'
+         img       → URL de la foto (Unsplash, tu propio servidor, etc.)
+                     🖼️ CAMBIA AQUÍ las imágenes de cada plato
+    ----------------------------------------------------------------- */
+    const MENU_ITEMS = [
+      /* ── CARNE ── */
+      {
+        id: 1,
+        name: 'Arrachera a la Parrilla',
+        desc: 'Arrachera premium marinada 12h, servida con chimichurri y papas crujientes.',
+        price: 14.50,
+        category: 'carne',
+        img: 'https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=600&q=80'
+      },
+      {
+        id: 2,
+        name: 'Costillas BBQ Vichas',
+        desc: 'Costillas de cerdo bañadas en nuestra salsa BBQ secreta. Puro fuego.',
+        price: 16.00,
+        category: 'carne',
+        img: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80'
+      },
+      {
+        id: 3,
+        name: 'Carne Asada Clásica',
+        desc: 'Carne asada con casamiento, plátano frito y ensalada de repollo.',
+        price: 11.00,
+        category: 'carne',
+        img: 'https://images.unsplash.com/photo-1558030006-450675393462?w=600&q=80'
+      },
+      {
+        id: 4,
+        name: 'Pollo al Carbón',
+        desc: 'Medio pollo al carbón con tortillas, chimol y frijoles parados.',
+        price: 10.50,
+        category: 'carne',
+        img: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c1?w=600&q=80'
+      },
+
+      /* ── MAR Y TIERRA ── */
+      {
+        id: 5,
+        name: 'Camarones al Ajillo',
+        desc: 'Camarones jumbo salteados en mantequilla, ajo y limón. Con arroz blanco.',
+        price: 15.00,
+        category: 'mar-tierra',
+        img: 'https://images.unsplash.com/photo-1565680018434-b513d5e5fd47?w=600&q=80'
+      },
+      {
+        id: 6,
+        name: 'Mix Mar y Tierra',
+        desc: 'Arrachera + camarones + calamar a la parrilla. Combo brutal.',
+        price: 18.50,
+        category: 'mar-tierra',
+        img: 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=600&q=80'
+      },
+      {
+        id: 7,
+        name: 'Ceviche Vicho',
+        desc: 'Camarones, pescado y pulpo en salsa de mariscos. Fresco y picante.',
+        price: 12.00,
+        category: 'mar-tierra',
+        img: 'https://images.unsplash.com/photo-1535399831218-d5bd36d1a6b3?w=600&q=80'
+      },
+
+      /* ── TACOS ── */
+      {
+        id: 8,
+        name: 'Tacos de Birria',
+        desc: '3 tacos de birria dorados, con consome para dippear. 🔥',
+        price: 9.50,
+        category: 'tacos',
+        img: 'https://images.unsplash.com/photo-1690053524030-71c4a56f88c7?w=600&q=80'
+      },
+      {
+        id: 9,
+        name: 'Tacos al Pastor',
+        desc: '3 tacos con trompo de cerdo, piña caramelizada, cebolla y cilantro.',
+        price: 8.00,
+        category: 'tacos',
+        img: 'https://images.unsplash.com/photo-1551504734-5ee1c4a1479b?w=600&q=80'
+      },
+      {
+        id: 10,
+        name: 'Tacos de Camarón',
+        desc: '3 tacos de camarón empanizado con col morada y aderezo especial.',
+        price: 10.00,
+        category: 'tacos',
+        img: 'https://images.unsplash.com/photo-1565299507177-b0ac66763828?w=600&q=80'
+      },
+      {
+        id: 11,
+        name: 'Taco Dorado Vegano',
+        desc: 'Papa + champiñones + queso vegano + guacamole. Vicho friendly. 🌿',
+        price: 7.50,
+        category: 'tacos',
+        img: 'https://images.unsplash.com/photo-1627308595229-7830a5c18106?w=600&q=80'
+      },
+
+      /* ── HAMBURGUESAS ── */
+      {
+        id: 12,
+        name: 'Vicho Burger',
+        desc: '200g res angus, doble queso cheddar, tocino crujiente, salsa vicha.',
+        price: 11.50,
+        category: 'hamburguesas',
+        img: 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=600&q=80'
+      },
+      {
+        id: 13,
+        name: 'Smash Doble',
+        desc: 'Dos smash patties, queso americano, pepinillos y mostaza especial.',
+        price: 12.00,
+        category: 'hamburguesas',
+        img: 'https://images.unsplash.com/photo-1550547660-d9450f859349?w=600&q=80'
+      },
+      {
+        id: 14,
+        name: 'Crispy Chicken Burger',
+        desc: 'Pechuga empanizada extra crujiente, coleslaw y salsa buffalo. 🌶️',
+        price: 10.50,
+        category: 'hamburguesas',
+        img: 'https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=600&q=80'
+      },
+      {
+        id: 15,
+        name: 'Mushroom Swiss Burger',
+        desc: 'Champiñones salteados, queso suizo derretido y cebolla caramelizada.',
+        price: 11.00,
+        category: 'hamburguesas',
+        img: 'https://images.unsplash.com/photo-1631700611307-37dbcb89ef7e?w=600&q=80'
+      },
+    ];
+
+    /* -----------------------------------------------------------------
+       🛒 ESTADO DEL CARRITO
+       cart = { [id]: { ...itemData, qty: N } }
+    ----------------------------------------------------------------- */
+    let cart = {};
+
+    /* -----------------------------------------------------------------
+       RENDERIZAR EL MENÚ
+    ----------------------------------------------------------------- */
+    function renderMenu(filter = 'all') {
+      const grid = document.getElementById('menu-grid');
+      const filtered = filter === 'all'
+        ? MENU_ITEMS
+        : MENU_ITEMS.filter(i => i.category === filter);
+
+      // Limpiamos el grid
+      grid.innerHTML = '';
+
+      if (filtered.length === 0) {
+        grid.innerHTML = `<p style="color:var(--text-muted);text-align:center;grid-column:1/-1;padding:40px 0;">No hay platos en esta categoría aún.</p>`;
+        return;
+      }
+
+      filtered.forEach((item, idx) => {
+        const inCart = cart[item.id] ? cart[item.id].qty : 0;
+        const card = document.createElement('div');
+        card.className = 'dish-card';
+        card.style.animationDelay = `${idx * 60}ms`;
+
+        card.innerHTML = `
+          <div class="dish-img-wrap">
+            <img class="dish-img" src="${item.img}" alt="${item.name}" loading="lazy"/>
+            <span class="dish-badge">${categoryLabel(item.category)}</span>
+          </div>
+          <div class="dish-body">
+            <div class="dish-name">${item.name}</div>
+            <div class="dish-desc">${item.desc}</div>
+            <div class="dish-footer">
+              <span class="dish-price">$${item.price.toFixed(2)}</span>
+              <button class="btn-add ${inCart > 0 ? 'added' : ''}"
+                      onclick="addToCart(${item.id})"
+                      id="btn-add-${item.id}">
+                <i class="bi bi-plus-circle-fill"></i>
+                ${inCart > 0 ? `En carrito (${inCart})` : 'Agregar'}
+              </button>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    /* Etiquetas de categoría */
+    function categoryLabel(cat) {
+      const map = {
+        'carne': '🥩 Carne',
+        'mar-tierra': '🦐 Mar y Tierra',
+        'tacos': '🌮 Tacos',
+        'hamburguesas': '🍔 Burger'
+      };
+      return map[cat] || cat;
+    }
+
+    /* -----------------------------------------------------------------
+       FILTROS — EVENT LISTENERS
+    ----------------------------------------------------------------- */
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        const filter = this.dataset.filter;
+        renderMenu(filter);
+      });
+    });
+
+    /* -----------------------------------------------------------------
+       AGREGAR AL CARRITO
+    ----------------------------------------------------------------- */
+    function addToCart(id) {
+      const item = MENU_ITEMS.find(i => i.id === id);
+      if (!item) return;
+
+      if (cart[id]) {
+        cart[id].qty += 1;
+      } else {
+        cart[id] = { ...item, qty: 1 };
+      }
+
+      // Actualizar botón en la tarjeta
+      const btn = document.getElementById(`btn-add-${id}`);
+      if (btn) {
+        btn.classList.add('added');
+        btn.innerHTML = `<i class="bi bi-check-circle-fill"></i> En carrito (${cart[id].qty})`;
+      }
+
+      updateCartUI();
+      showToast(`✅ ${item.name} agregado al pedido`);
+    }
+
+    /* -----------------------------------------------------------------
+       QUITAR / REDUCIR DEL CARRITO
+    ----------------------------------------------------------------- */
+    function removeFromCart(id) {
+      if (!cart[id]) return;
+      cart[id].qty -= 1;
+      if (cart[id].qty <= 0) delete cart[id];
+      renderCartDrawer();
+      updateCartBadge();
+      // Re-render menú para actualizar botones
+      const activeFilter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+      renderMenu(activeFilter);
+    }
+
+    /* -----------------------------------------------------------------
+       ACTUALIZAR UI DEL CARRITO
+    ----------------------------------------------------------------- */
+    function updateCartUI() {
+      renderCartDrawer();
+      updateCartBadge();
+    }
+
+    function updateCartBadge() {
+      const total = Object.values(cart).reduce((sum, i) => sum + i.qty, 0);
+      const badge = document.getElementById('cart-count');
+      const fab   = document.getElementById('fab-whatsapp');
+      if (total > 0) {
+        badge.style.display = 'flex';
+        badge.textContent = total > 99 ? '99+' : total;
+        fab.textContent = '🛒';
+      } else {
+        badge.style.display = 'none';
+        fab.textContent = '🛒';
+      }
+    }
+
+    function renderCartDrawer() {
+      const list  = document.getElementById('cart-items-list');
+      const items = Object.values(cart);
+
+      if (items.length === 0) {
+        list.innerHTML = `
+          <div class="cart-empty">
+            <div class="cart-empty-icon">🍽️</div>
+            <p style="font-weight:600; font-size:0.95rem;">Tu pedido está vacío</p>
+            <p style="font-size:0.82rem; margin-top:6px;">Agrega platos del menú para comenzar.</p>
+          </div>`;
+        document.getElementById('cart-total').textContent = '$0.00';
+        return;
+      }
+
+      let html = '';
+      let total = 0;
+
+      items.forEach(item => {
+        const subtotal = item.price * item.qty;
+        total += subtotal;
+        html += `
+          <div class="cart-item">
+            <img class="cart-item-img" src="${item.img}" alt="${item.name}"/>
+            <div class="cart-item-info">
+              <div class="cart-item-name">${item.name}</div>
+              <div class="cart-item-price">$${item.price.toFixed(2)} c/u · Subtotal: $${subtotal.toFixed(2)}</div>
+            </div>
+            <div class="cart-item-qty">
+              <button class="qty-btn" onclick="removeFromCart(${item.id})">−</button>
+              <span class="qty-num">${item.qty}</span>
+              <button class="qty-btn" onclick="addToCart(${item.id})">+</button>
+            </div>
+          </div>`;
+      });
+
+      list.innerHTML = html;
+      document.getElementById('cart-total').textContent = `$${total.toFixed(2)}`;
+    }
+
+    /* -----------------------------------------------------------------
+       TOGGLE CARRITO
+    ----------------------------------------------------------------- */
+    function toggleCart() {
+      const drawer  = document.getElementById('cart-drawer');
+      const overlay = document.getElementById('cart-overlay');
+      const isOpen  = drawer.classList.contains('open');
+      drawer.classList.toggle('open', !isOpen);
+      overlay.classList.toggle('show', !isOpen);
+    }
+
+    /* -----------------------------------------------------------------
+       ENVIAR PEDIDO POR WHATSAPP
+       📝 CAMBIA AQUÍ el número de WhatsApp (formato internacional sin +)
+    ----------------------------------------------------------------- */
+    const WA_NUMBER = '50300000000'; // ← Tu número aquí
+
+    function sendToWhatsApp() {
+      const items = Object.values(cart);
+      if (items.length === 0) {
+        showToast('⚠️ Agrega platos antes de enviar tu pedido.');
+        return;
+      }
+
+      let msg = '🍽️ *Pedido - Los Vichos* 🌴\n\n';
+      let total = 0;
+
+      items.forEach(item => {
+        const sub = item.price * item.qty;
+        total += sub;
+        msg += `• ${item.name} x${item.qty} — $${sub.toFixed(2)}\n`;
+      });
+
+      msg += `\n*Total: $${total.toFixed(2)}*`;
+      msg += '\n\n¡Hola! Quiero hacer este pedido 🙌';
+
+      const encoded = encodeURIComponent(msg);
+      window.open(`https://wa.me/${WA_NUMBER}?text=${encoded}`, '_blank');
+    }
+
+    /* -----------------------------------------------------------------
+       TOAST NOTIFICACIONES
+    ----------------------------------------------------------------- */
+    function showToast(text) {
+      const container = document.getElementById('toast-container');
+      const toast = document.createElement('div');
+      toast.className = 'toast-msg';
+      toast.innerHTML = text;
+      container.appendChild(toast);
+      setTimeout(() => toast.remove(), 2700);
+    }
+
+    /* -----------------------------------------------------------------
+       SCROLL REVEAL — Intersection Observer
+    ----------------------------------------------------------------- */
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+
+    document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+    /* -----------------------------------------------------------------
+       NAVBAR — cambio de estilo al hacer scroll
+    ----------------------------------------------------------------- */
+    window.addEventListener('scroll', () => {
+      const nav = document.getElementById('mainNav');
+      nav.style.background = window.scrollY > 60
+        ? 'rgba(8, 11, 18, 0.95)'
+        : 'rgba(8, 11, 18, 0.72)';
+    });
+
+    /* -----------------------------------------------------------------
+       INIT — Renderizar menú al cargar
+    ----------------------------------------------------------------- */
+    renderMenu('all');
+  </script>
+</body>
+</html>
