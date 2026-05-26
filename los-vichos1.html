@@ -775,16 +775,104 @@
     }
 
     /* ============================================================
-       RESPONSIVE
+       RESPONSIVE — TABLET (≤ 992px)
     ============================================================ */
     @media (max-width: 992px) {
-      .hero-img-wrap { margin-top: 60px; }
+      section { padding: 80px 0; }
+      .hero-img-wrap { margin-top: 50px; }
+      .hero-img-card { width: min(360px, 100%); }
       .vibe-grid { grid-template-columns: repeat(2, 1fr); }
       .vibe-img.tall { grid-row: span 1; aspect-ratio: 3/2; }
+      #menu-grid { grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
     }
+
+    /* ============================================================
+       RESPONSIVE — MÓVIL GRANDE (≤ 768px)
+    ============================================================ */
+    @media (max-width: 768px) {
+      section { padding: 64px 0; }
+      #hero { padding-top: 80px; }
+      .hero-tag { font-size: 0.7rem; }
+      .hero-sub { font-size: 1rem; }
+      .hero-stats { gap: 1.2rem; flex-wrap: wrap; }
+      .stat-num { font-size: 1.8rem; }
+      .stat-label { font-size: 0.68rem; }
+      .hero-img-badge {
+        padding: 10px 14px; gap: 8px;
+        left: 50%; width: 90%; transform: translateX(-50%);
+      }
+      .badge-emoji { font-size: 1.3rem; }
+      .badge-text strong { font-size: 0.82rem; }
+      .badge-text span { font-size: 0.68rem; }
+      .menu-filters { gap: 8px; }
+      .filter-btn { padding: 8px 16px; font-size: 0.8rem; }
+      #menu-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+      #cart-drawer { width: 100vw; right: -100vw; }
+      .footer-logo { font-size: 2.4rem; }
+      .footer-desc { max-width: 100%; }
+    }
+
+    /* ============================================================
+       RESPONSIVE — MÓVIL (≤ 576px)
+    ============================================================ */
     @media (max-width: 576px) {
-      .hero-stats { gap: 1.5rem; }
+      section { padding: 56px 0; }
+      #hero { padding-top: 72px; }
+
+      /* Stats en grid 3 columnas con borde */
+      .hero-stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border: 1px solid var(--border-glow);
+        border-radius: 16px;
+        overflow: hidden;
+        margin-top: 2.5rem;
+      }
+      .stat-item {
+        padding: 14px 10px;
+        text-align: center;
+        border-right: 1px solid var(--border-glow);
+      }
+      .stat-item:last-child { border-right: none; }
+      .stat-num { font-size: 1.6rem; }
+
+      /* Grid de platos: 1 columna */
+      #menu-grid { grid-template-columns: 1fr; gap: 14px; }
+
+      /* Pie de tarjeta apilado */
+      .dish-footer { flex-wrap: wrap; gap: 10px; }
+      .btn-add { width: 100%; justify-content: center; }
+
+      /* Filtros con scroll horizontal */
+      .menu-filters {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        justify-content: flex-start;
+        padding-bottom: 8px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+      }
+      .menu-filters::-webkit-scrollbar { display: none; }
+      .filter-btn { flex-shrink: 0; }
+
+      /* Galería nosotros */
       .vibe-grid { grid-template-columns: 1fr; }
+      .vibe-img.tall { aspect-ratio: 16/9; }
+
+      /* FAB y toasts */
+      #fab-whatsapp { bottom: 18px; right: 18px; width: 52px; height: 52px; font-size: 1.3rem; }
+      #toast-container { bottom: 84px; right: 18px; }
+    }
+
+    /* ============================================================
+       RESPONSIVE — MÓVIL PEQUEÑO (≤ 380px)
+    ============================================================ */
+    @media (max-width: 380px) {
+      .stat-num { font-size: 1.3rem; }
+      .stat-label { font-size: 0.6rem; }
+      .navbar-brand { font-size: 1.6rem; }
+      .filter-btn { padding: 7px 12px; font-size: 0.75rem; }
     }
   </style>
 </head>
@@ -1117,7 +1205,7 @@
         desc: 'Medio pollo al carbón con tortillas, chimol y frijoles parados.',
         price: 10.50,
         category: 'carne',
-        img: 'https://images.unsplash.com/photo-1598103442097-8b74394b95c1?w=600&q=80'
+        img: 'https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?w=600&q=80'
       },
 
       /* ── MAR Y TIERRA ── */
@@ -1153,7 +1241,7 @@
         desc: '3 tacos de birria dorados, con consome para dippear. 🔥',
         price: 9.50,
         category: 'tacos',
-        img: 'https://images.unsplash.com/photo-1690053524030-71c4a56f88c7?w=600&q=80'
+        img: 'https://images.unsplash.com/photo-1613514785940-daed07799d9b?w=600&q=80'
       },
       {
         id: 9,
@@ -1177,7 +1265,7 @@
         desc: 'Papa + champiñones + queso vegano + guacamole. Vicho friendly. 🌿',
         price: 7.50,
         category: 'tacos',
-        img: 'https://images.unsplash.com/photo-1627308595229-7830a5c18106?w=600&q=80'
+        img: 'https://images.unsplash.com/photo-1512058564366-18510be2db19?w=600&q=80'
       },
 
       /* ── HAMBURGUESAS ── */
