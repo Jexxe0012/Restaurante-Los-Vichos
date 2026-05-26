@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Los Vichos — Sabor Sin Filtro</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Syne:wght@400;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --sunset: #FF6B35;
+    --neon-pink: #FF2D78;
+    --neon-purple: #BF00FF;
+    --ocean: #00B4D8;
+    --pastel-pink: #FFB3C6;
+    --pastel-yellow: #FFE66D;
+    --coral: #FF4D6D;
+    --deep-night: #0D0015;
+    --dark-card: #150025;
+    --text-light: #FFF5F0;
+    --soft-mint: #90E0EF;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--deep-night);
+    color: var(--text-light);
+    font-family: 'Syne', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; width: 100%; z-index: 999;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1rem 3rem;
+    background: rgba(13,0,21,0.6);
+    backdrop-filter: blur(16px);
+    border-bottom: 1px solid rgba(255,45,120,0.2);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2rem; letter-spacing: 4px;
+    background: linear-gradient(90deg, var(--neon-pink), var(--pastel-yellow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+  .nav-links a {
+    font-size: .85rem; letter-spacing: 2px; text-transform: uppercase;
+    text-decoration: none; color: var(--text-light);
+    transition: color .3s;
+  }
+  .nav-links a:hover { color: var(--pastel-yellow); }
+  .nav-cta {
+    background: var(--neon-pink); color: #fff;
+    border: none; padding: .6rem 1.4rem;
+    border-radius: 50px; font-family: 'Syne', sans-serif;
+    font-weight: 700; font-size: .85rem; letter-spacing: 1px;
+    cursor: pointer; text-transform: uppercase;
+    transition: transform .2s, box-shadow .3s;
+    box-shadow: 0 0 20px rgba(255,45,120,.5);
+  }
+  .nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 35px rgba(255,45,120,.8); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    padding: 6rem 2rem 4rem;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0; z-index: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 80%, rgba(0,180,216,.25) 0%, transparent 60%),
+      radial-gradient(ellipse 70% 50% at 80% 20%, rgba(191,0,255,.3) 0%, transparent 60%),
+      radial-gradient(ellipse 90% 70% at 50% 50%, rgba(255,107,53,.15) 0%, transparent 70%),
+      var(--deep-night);
+  }
+
+  .hero-grid-overlay {
+    position: absolute; inset: 0; z-index: 0; opacity: .08;
+    background-image:
+      linear-gradient(rgba(255,255,255,.4) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.4) 1px, transparent 1px);
+    background-size: 48px 48px;
+    transform: perspective(800px) rotateX(55deg) scale(2);
+    transform-origin: 50% 100%;
+  }
+
+  .hero-content { position: relative; z-index: 2; text-align: center; max-width: 900px; }
+
+  .hero-tag {
+    display: inline-block;
+    font-family: 'Space Mono', monospace; font-size: .75rem;
+    letter-spacing: 3px; text-transform: uppercase;
+    color: var(--pastel-yellow); border: 1px solid var(--pastel-yellow);
+    padding: .3rem .9rem; border-radius: 50px; margin-bottom: 1.5rem;
+    animation: fadeUp .8s ease both;
+  }
+
+  .hero-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(4rem, 13vw, 10rem);
+    line-height: .92; letter-spacing: 4px;
+    animation: fadeUp .8s .15s ease both;
+  }
+  .hero-title span.hot { color: var(--sunset); }
+  .hero-title span.vibe {
+    background: linear-gradient(135deg, var(--neon-pink), var(--neon-purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem; color: rgba(255,245,240,.6); margin: 1.5rem 0 2.5rem;
+    font-weight: 400; letter-spacing: 1px;
+    animation: fadeUp .8s .3s ease both;
+  }
+
+  .hero-btns {
+    display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    animation: fadeUp .8s .45s ease both;
+  }
+  .btn-primary {
+    background: var(--neon-pink); color: #fff; border: none;
+    padding: .9rem 2.2rem; border-radius: 50px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+    cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+    box-shadow: 0 0 30px rgba(255,45,120,.6);
+    transition: transform .2s, box-shadow .3s;
+  }
+  .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 0 50px rgba(255,45,120,.9); }
+  .btn-ghost {
+    background: transparent; color: var(--text-light);
+    border: 1.5px solid rgba(255,245,240,.4);
+    padding: .9rem 2.2rem; border-radius: 50px;
+    font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1rem;
+    cursor: pointer; letter-spacing: 1px; text-transform: uppercase;
+    transition: border-color .3s, color .3s;
+  }
+  .btn-ghost:hover { border-color: var(--soft-mint); color: var(--soft-mint); }
+
+  /* Food showcase */
+  .hero-food-row {
+    display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap;
+    margin-top: 4rem; position: relative; z-index: 2;
+    animation: fadeUp .8s .6s ease both;
+  }
+  .food-card {
+    position: relative; border-radius: 24px; overflow: hidden;
+    width: 220px; height: 220px;
+    border: 1.5px solid rgba(255,45,120,.3);
+    transition: transform .35s, box-shadow .35s;
+    cursor: pointer;
+  }
+  .food-card:hover { transform: translateY(-12px) rotate(-1deg); box-shadow: 0 30px 60px rgba(255,45,120,.4); }
+  .food-card:nth-child(2) { transform: translateY(-20px); }
+  .food-card:nth-child(2):hover { transform: translateY(-32px) rotate(1deg); }
+
+  .food-emoji {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem;
+    position: relative; z-index: 1;
+  }
+  .food-card-bg {
+    position: absolute; inset: 0;
+  }
+  .fc1 .food-card-bg { background: linear-gradient(135deg, #1a0030, #3d0060, #1a0030); }
+  .fc2 .food-card-bg { background: linear-gradient(135deg, #002040, #004080, #001428); }
+  .fc3 .food-card-bg { background: linear-gradient(135deg, #400010, #800020, #300010); }
+
+  .food-card-label {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,.8));
+    padding: .8rem; text-align: center; z-index: 2;
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.1rem; letter-spacing: 2px;
+    color: var(--pastel-yellow);
+  }
+
+  /* Neon glow orbs */
+  .orb {
+    position: absolute; border-radius: 50%;
+    filter: blur(80px); z-index: 0; pointer-events: none;
+    animation: orbFloat 6s ease-in-out infinite;
+  }
+  .orb1 { width: 400px; height: 400px; background: rgba(191,0,255,.2); top: 10%; left: -10%; animation-delay: 0s; }
+  .orb2 { width: 350px; height: 350px; background: rgba(255,45,120,.15); top: 50%; right: -8%; animation-delay: 2s; }
+  .orb3 { width: 300px; height: 300px; background: rgba(0,180,216,.15); bottom: 5%; left: 30%; animation-delay: 4s; }
+
+  @keyframes orbFloat {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-30px) scale(1.05); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SECTION HEADER ── */
+  .section-header { text-align: center; margin-bottom: 3rem; }
+  .section-tag {
+    font-family: 'Space Mono', monospace; font-size: .7rem;
+    letter-spacing: 3px; color: var(--pastel-yellow); text-transform: uppercase;
+    display: block; margin-bottom: .5rem;
+  }
+  .section-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    letter-spacing: 3px; line-height: 1;
+  }
+  .section-title .accent { color: var(--neon-pink); }
+
+  /* ── MENU ── */
+  #menu {
+    padding: 6rem 2rem;
+    position: relative; overflow: hidden;
+  }
+  #menu::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 50% 50%, rgba(191,0,255,.08) 0%, transparent 70%);
+  }
+
+  .menu-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1.5rem; max-width: 1100px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+
+  .menu-category {
+    background: var(--dark-card);
+    border: 1px solid rgba(255,45,120,.2);
+    border-radius: 24px; padding: 2rem;
+    transition: border-color .3s, transform .3s;
+    position: relative; overflow: hidden;
+  }
+  .menu-category::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  }
+  .menu-category.carne::before { background: linear-gradient(90deg, var(--sunset), var(--coral)); }
+  .menu-category.mar::before { background: linear-gradient(90deg, var(--ocean), var(--soft-mint)); }
+  .menu-category.tacos::before { background: linear-gradient(90deg, var(--pastel-yellow), var(--sunset)); }
+  .menu-category.burgers::before { background: linear-gradient(90deg, var(--neon-pink), var(--neon-purple)); }
+
+  .menu-category:hover { border-color: rgba(255,45,120,.5); transform: translateY(-6px); }
+
+  .cat-icon { font-size: 3rem; margin-bottom: .8rem; display: block; }
+  .cat-name {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.8rem; letter-spacing: 2px;
+    margin-bottom: 1.2rem;
+  }
+  .cat-name.carne { color: var(--sunset); }
+  .cat-name.mar { color: var(--soft-mint); }
+  .cat-name.tacos { color: var(--pastel-yellow); }
+  .cat-name.burgers { color: var(--neon-pink); }
+
+  .menu-item {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .65rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.07);
+  }
+  .menu-item:last-child { border-bottom: none; }
+  .item-name { font-size: .9rem; color: rgba(255,245,240,.8); }
+  .item-price {
+    font-family: 'Space Mono', monospace; font-size: .85rem;
+    color: var(--pastel-yellow); font-weight: 700;
+  }
+  .item-badge {
+    font-size: .6rem; letter-spacing: 1px; text-transform: uppercase;
+    padding: .15rem .5rem; border-radius: 50px; margin-left: .5rem;
+    font-family: 'Space Mono', monospace; vertical-align: middle;
+  }
+  .badge-hot { background: rgba(255,107,53,.2); color: var(--sunset); border: 1px solid var(--sunset); }
+  .badge-new { background: rgba(0,180,216,.2); color: var(--ocean); border: 1px solid var(--ocean); }
+
+  /* ── VIBE / GALLERY ── */
+  #vibe {
+    padding: 6rem 2rem;
+    background: linear-gradient(180deg, var(--deep-night) 0%, #0a001a 100%);
+    position: relative;
+  }
+  #vibe::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 100% 50% at 50% 100%, rgba(0,180,216,.1) 0%, transparent 60%);
+  }
+
+  .vibe-layout {
+    max-width: 1100px; margin: 0 auto;
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: auto;
+    gap: 1.2rem;
+    position: relative; z-index: 1;
+  }
+
+  .vibe-card {
+    border-radius: 20px; overflow: hidden; position: relative;
+    min-height: 200px; display: flex; align-items: flex-end;
+    cursor: pointer;
+    transition: transform .3s;
+  }
+  .vibe-card:hover { transform: scale(1.02); }
+  .vibe-card.tall { grid-row: span 2; min-height: 420px; }
+
+  .vibe-bg {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 6rem;
+  }
+  .vb1 { background: linear-gradient(135deg, #0d1b3e 0%, #0d2b4a 40%, #062040 100%); }
+  .vb2 { background: linear-gradient(135deg, #1a0030 0%, #350060 50%, #1a0030 100%); }
+  .vb3 { background: linear-gradient(135deg, #2d0a00 0%, #5c1500 50%, #3d0a00 100%); }
+  .vb4 { background: linear-gradient(135deg, #001a20 0%, #004060 50%, #001a20 100%); }
+  .vb5 { background: linear-gradient(135deg, #1a0020 0%, #400045 50%, #1a0020 100%); }
+
+  /* Neon sign aesthetic overlays */
+  .vibe-card.vc1 .vibe-bg::after { content: '🌊'; font-size: 4rem; position: absolute; top: 20%; right: 20%; opacity: .4; }
+  .vibe-card.vc2 .vibe-bg::after { content: '⚡'; font-size: 3rem; position: absolute; top: 15%; left: 15%; opacity: .5; }
+
+  .vibe-overlay {
+    position: absolute; inset: 0;
+    background: linear-gradient(transparent 40%, rgba(0,0,0,.7) 100%);
+    z-index: 1;
+  }
+  .vibe-label {
+    position: relative; z-index: 2;
+    padding: 1.2rem 1.4rem; width: 100%;
+  }
+  .vibe-label strong {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.3rem; letter-spacing: 2px;
+    color: var(--text-light); display: block;
+  }
+  .vibe-label span {
+    font-family: 'Space Mono', monospace; font-size: .65rem;
+    letter-spacing: 2px; color: rgba(255,245,240,.5); text-transform: uppercase;
+  }
+  .neon-tag {
+    position: absolute; top: 1rem; right: 1rem; z-index: 3;
+    font-family: 'Space Mono', monospace; font-size: .6rem;
+    letter-spacing: 2px; padding: .3rem .7rem;
+    border-radius: 50px; text-transform: uppercase;
+  }
+  .nt-pink { background: rgba(255,45,120,.2); color: var(--neon-pink); border: 1px solid var(--neon-pink); }
+  .nt-ocean { background: rgba(0,180,216,.2); color: var(--ocean); border: 1px solid var(--ocean); }
+  .nt-yellow { background: rgba(255,230,109,.15); color: var(--pastel-yellow); border: 1px solid var(--pastel-yellow); }
+
+  /* Neon decorative text */
+  .neon-text {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 4px;
+    position: absolute; z-index: 3;
+  }
+  .neon-pink-text { color: var(--neon-pink); text-shadow: 0 0 10px var(--neon-pink), 0 0 20px var(--neon-pink); }
+  .neon-ocean-text { color: var(--ocean); text-shadow: 0 0 10px var(--ocean), 0 0 20px var(--ocean); }
+
+  /* Emoji scene for cards */
+  .scene { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: .5rem; }
+  .scene-main { font-size: 5rem; }
+  .scene-deco { font-size: 2rem; opacity: .5; }
+
+  /* ── MARQUEE STRIP ── */
+  .marquee-strip {
+    background: var(--neon-pink);
+    padding: .6rem 0; overflow: hidden;
+    border-top: 2px solid rgba(255,255,255,.2);
+    border-bottom: 2px solid rgba(255,255,255,.2);
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 20s linear infinite;
+    width: max-content;
+  }
+  .marquee-item {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem; letter-spacing: 4px;
+    padding: 0 2.5rem; white-space: nowrap;
+    color: #fff;
+  }
+  .marquee-dot { color: rgba(255,255,255,.5); }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* ── CTA SECTION ── */
+  #cta {
+    padding: 7rem 2rem;
+    text-align: center;
+    background:
+      radial-gradient(ellipse 70% 60% at 50% 50%, rgba(191,0,255,.2) 0%, transparent 70%),
+      var(--deep-night);
+    position: relative; overflow: hidden;
+  }
+  #cta .cta-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 8vw, 6rem);
+    letter-spacing: 4px; line-height: 1;
+    margin-bottom: 1rem;
+  }
+  .cta-sub { color: rgba(255,245,240,.5); font-size: 1rem; margin-bottom: 2.5rem; }
+
+  .social-row { display: flex; gap: 1rem; justify-content: center; margin-top: 2rem; }
+  .social-pill {
+    font-family: 'Space Mono', monospace; font-size: .75rem;
+    letter-spacing: 2px; padding: .5rem 1.2rem;
+    border-radius: 50px; border: 1px solid;
+    cursor: pointer; text-transform: uppercase;
+    transition: background .3s;
+    text-decoration: none; display: inline-block;
+  }
+  .sp-pink { color: var(--neon-pink); border-color: var(--neon-pink); }
+  .sp-pink:hover { background: rgba(255,45,120,.15); }
+  .sp-ocean { color: var(--ocean); border-color: var(--ocean); }
+  .sp-ocean:hover { background: rgba(0,180,216,.15); }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 2rem 3rem;
+    border-top: 1px solid rgba(255,45,120,.15);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1rem;
+    background: rgba(0,0,0,.3);
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif; font-size: 1.5rem; letter-spacing: 4px;
+    background: linear-gradient(90deg, var(--neon-pink), var(--pastel-yellow));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  footer p { font-size: .75rem; color: rgba(255,245,240,.3); font-family: 'Space Mono', monospace; }
+
+  /* Decorative rotating star */
+  .star-deco {
+    position: absolute; font-size: 5rem; opacity: .06; pointer-events: none;
+    animation: rotateStar 20s linear infinite;
+    font-family: 'Bebas Neue', sans-serif; color: var(--pastel-yellow);
+  }
+  @keyframes rotateStar { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links, .nav-cta { display: none; }
+    .hero-food-row { gap: 1rem; }
+    .food-card { width: 160px; height: 160px; }
+    .food-emoji { font-size: 4rem; }
+    .vibe-layout { grid-template-columns: 1fr; }
+    .vibe-card.tall { grid-row: span 1; min-height: 200px; }
+    footer { flex-direction: column; text-align: center; }
+  }
+
+  /* Scroll reveal */
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: .1s; }
+  .reveal-delay-2 { transition-delay: .2s; }
+  .reveal-delay-3 { transition-delay: .3s; }
+  .reveal-delay-4 { transition-delay: .4s; }
+
+  /* Pop-art halftone accent */
+  .halftone-accent {
+    position: absolute; width: 200px; height: 200px;
+    background-image: radial-gradient(circle, rgba(255,45,120,.15) 2px, transparent 2px);
+    background-size: 16px 16px;
+    border-radius: 50%; pointer-events: none; z-index: 0;
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">Los Vichos</div>
+  <ul class="nav-links">
+    <li><a href="#menu">Menú</a></li>
+    <li><a href="#vibe">El Vibe</a></li>
+    <li><a href="#cta">Contacto</a></li>
+  </ul>
+  <button class="nav-cta">Reservar Mesa</button>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-overlay"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+
+  <div class="hero-content">
+    <span class="hero-tag">🌴 El Sabor Que Te Busca</span>
+    <h1 class="hero-title">
+      <span class="hot">LOS</span><br>
+      <span class="vibe">VICHOS</span><br>
+    </h1>
+    <p class="hero-sub">Mar · Tierra · Fuego · Vibe</p>
+    <div class="hero-btns">
+      <button class="btn-primary" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver el Menú</button>
+      <button class="btn-ghost" onclick="document.getElementById('vibe').scrollIntoView({behavior:'smooth'})">El Ambiente</button>
+    </div>
+  </div>
+
+  <div class="hero-food-row">
+    <div class="food-card fc2">
+      <div class="food-card-bg"></div>
+      <div class="food-emoji">🦞</div>
+      <div class="food-card-label">Mar y Tierra</div>
+    </div>
+    <div class="food-card fc1">
+      <div class="food-card-bg"></div>
+      <div class="food-emoji">🍔</div>
+      <div class="food-card-label">Hamburguesas</div>
+    </div>
+    <div class="food-card fc3">
+      <div class="food-card-bg"></div>
+      <div class="food-emoji">🌮</div>
+      <div class="food-card-label">Tacos</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">MAR Y TIERRA <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">TACOS GOURMET <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">BURGERS LOADED <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">EL VIBE ES REAL <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">SABOR SIN FILTRO <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">ABRE DE LUNES A DOMINGO <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">MAR Y TIERRA <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">TACOS GOURMET <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">BURGERS LOADED <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">EL VIBE ES REAL <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">SABOR SIN FILTRO <span class="marquee-dot">✦</span></span>
+    <span class="marquee-item">ABRE DE LUNES A DOMINGO <span class="marquee-dot">✦</span></span>
+  </div>
+</div>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="halftone-accent" style="top:-80px;right:5%;"></div>
+  <div class="section-header reveal">
+    <span class="section-tag">02 — Nuestra Carta</span>
+    <h2 class="section-title">EL <span class="accent">MENÚ</span></h2>
+  </div>
+
+  <div class="menu-grid">
+
+    <!-- Carne -->
+    <div class="menu-category carne reveal reveal-delay-1">
+      <span class="cat-icon">🥩</span>
+      <div class="cat-name carne">Carne</div>
+      <div class="menu-item">
+        <span class="item-name">Churrasco Vicho</span>
+        <span class="item-price">$18.50</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Costillas BBQ Glaseadas</span>
+        <span class="item-price">$22.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Filete a la Parrilla<span class="item-badge badge-hot">🔥 Hot</span></span>
+        <span class="item-price">$24.50</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Arrachera Marinada</span>
+        <span class="item-price">$19.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Short Rib Desmechado<span class="item-badge badge-new">New</span></span>
+        <span class="item-price">$21.00</span>
+      </div>
+    </div>
+
+    <!-- Mar y Tierra -->
+    <div class="menu-category mar reveal reveal-delay-2">
+      <span class="cat-icon">🦞</span>
+      <div class="cat-name mar">Mar y Tierra</div>
+      <div class="menu-item">
+        <span class="item-name">Surf & Turf Original<span class="item-badge badge-hot">🔥 Hot</span></span>
+        <span class="item-price">$32.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Camarón & Carne Combo</span>
+        <span class="item-price">$28.50</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Langosta & Filete</span>
+        <span class="item-price">$38.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Pulpo a la Parilla<span class="item-badge badge-new">New</span></span>
+        <span class="item-price">$26.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Mix del Mar (4 personas)</span>
+        <span class="item-price">$75.00</span>
+      </div>
+    </div>
+
+    <!-- Tacos -->
+    <div class="menu-category tacos reveal reveal-delay-3">
+      <span class="cat-icon">🌮</span>
+      <div class="cat-name tacos">Tacos</div>
+      <div class="menu-item">
+        <span class="item-name">Taco al Pastor Vicho</span>
+        <span class="item-price">$4.50</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Taco de Camarón Tropical</span>
+        <span class="item-price">$5.50</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Taco Birria con Consomé<span class="item-badge badge-hot">🔥 Hot</span></span>
+        <span class="item-price">$5.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Taco de Pulpo Asado<span class="item-badge badge-new">New</span></span>
+        <span class="item-price">$6.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Orden de 3 Tacos</span>
+        <span class="item-price">$13.50</span>
+      </div>
+    </div>
+
+    <!-- Hamburguesas -->
+    <div class="menu-category burgers reveal reveal-delay-4">
+      <span class="cat-icon">🍔</span>
+      <div class="cat-name burgers">Hamburguesas</div>
+      <div class="menu-item">
+        <span class="item-name">La Vicho Clásica<span class="item-badge badge-hot">🔥 Hot</span></span>
+        <span class="item-price">$14.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Smash Burger Doble</span>
+        <span class="item-price">$16.50</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Burger de Camarón Loaded</span>
+        <span class="item-price">$15.00</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">BBQ Bacon Cheese Tower<span class="item-badge badge-new">New</span></span>
+        <span class="item-price">$17.50</span>
+      </div>
+      <div class="menu-item">
+        <span class="item-name">Truffle Mushroom Burger</span>
+        <span class="item-price">$16.00</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- MARQUEE 2 -->
+<div class="marquee-strip" style="background: var(--neon-purple);">
+  <div class="marquee-track" style="animation-direction: reverse;">
+    <span class="marquee-item">OPEN 12PM – 11PM <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">NEON VIBES <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">GOOD FOOD ONLY <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">REGGAETON LOWKEY <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">TU MESA TE ESPERA <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">OPEN 12PM – 11PM <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">NEON VIBES <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">GOOD FOOD ONLY <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">REGGAETON LOWKEY <span class="marquee-dot">★</span></span>
+    <span class="marquee-item">TU MESA TE ESPERA <span class="marquee-dot">★</span></span>
+  </div>
+</div>
+
+<!-- VIBE / GALLERY -->
+<section id="vibe">
+  <div class="section-header reveal">
+    <span class="section-tag">03 — El Ambiente</span>
+    <h2 class="section-title">EL <span class="accent">VIBE</span></h2>
+  </div>
+
+  <div class="vibe-layout">
+
+    <div class="vibe-card tall vc1 reveal">
+      <div class="vibe-bg vb1">
+        <div class="scene">
+          <div class="scene-main">🌊</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:3rem; color:rgba(0,180,216,.3); letter-spacing:6px;">OCEAN</div>
+        </div>
+      </div>
+      <div class="vibe-overlay"></div>
+      <span class="neon-tag nt-ocean">Interior</span>
+      <div class="vibe-label">
+        <strong>Zona Mar</strong>
+        <span>Luces de neón · Ambiente tropical</span>
+      </div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; gap:1.2rem;">
+      <div class="vibe-card vc2 reveal reveal-delay-1">
+        <div class="vibe-bg vb2">
+          <div class="scene">
+            <div class="scene-main">💜</div>
+          </div>
+          <div class="neon-text neon-pink-text" style="top:1rem; left:1.2rem;">VICHOS</div>
+        </div>
+        <div class="vibe-overlay"></div>
+        <span class="neon-tag nt-pink">Letrero</span>
+        <div class="vibe-label">
+          <strong>Neon Sign Wall</strong>
+          <span>El spot perfecto para fotos</span>
+        </div>
+      </div>
+
+      <div class="vibe-card reveal reveal-delay-2">
+        <div class="vibe-bg vb3">
+          <div class="scene">
+            <div class="scene-main">🔥</div>
+          </div>
+        </div>
+        <div class="vibe-overlay"></div>
+        <span class="neon-tag nt-yellow">Cocina</span>
+        <div class="vibe-label">
+          <strong>Open Kitchen</strong>
+          <span>Ve cómo se prepara tu orden</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="vibe-card reveal reveal-delay-1" style="grid-column: span 2;">
+      <div class="vibe-bg vb4" style="width:100%; height:100%;">
+        <div class="scene" style="flex-direction:row; gap:3rem; width:100%;">
+          <div style="text-align:center;">
+            <div class="scene-main">🌴</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1rem; color:rgba(0,180,216,.4); letter-spacing:4px; margin-top:.3rem;">PLAYA VIBE</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="scene-main">🎶</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1rem; color:rgba(255,45,120,.4); letter-spacing:4px; margin-top:.3rem;">LIVE MUSIC</div>
+          </div>
+          <div style="text-align:center;">
+            <div class="scene-main">🍹</div>
+            <div style="font-family:'Bebas Neue',sans-serif; font-size:1rem; color:rgba(255,230,109,.4); letter-spacing:4px; margin-top:.3rem;">COCKTAILS</div>
+          </div>
+        </div>
+      </div>
+      <div class="vibe-overlay" style="background:linear-gradient(transparent 30%, rgba(0,0,0,.7));"></div>
+      <span class="neon-tag nt-ocean">Terraza</span>
+      <div class="vibe-label">
+        <strong>La Terraza Los Vichos</strong>
+        <span>Viernes y Sábados — Música en vivo · Cócteles de autor</span>
+      </div>
+    </div>
+
+    <div class="vibe-card reveal reveal-delay-2">
+      <div class="vibe-bg vb5">
+        <div class="scene">
+          <div class="scene-main">🦋</div>
+          <div style="font-family:'Space Mono',monospace; font-size:.7rem; color:rgba(191,0,255,.5); letter-spacing:3px; margin-top:.5rem;">#LOSVICHOS</div>
+        </div>
+      </div>
+      <div class="vibe-overlay"></div>
+      <span class="neon-tag nt-pink">Social</span>
+      <div class="vibe-label">
+        <strong>Postea tu vibe</strong>
+        <span>Tag @losvichos para aparecer aquí</span>
+      </div>
+    </div>
+
+    <div class="vibe-card reveal reveal-delay-3">
+      <div class="vibe-bg" style="background: linear-gradient(135deg,#001a30,#003060,#001428);">
+        <div class="scene">
+          <div class="scene-main">🌅</div>
+          <div style="font-family:'Bebas Neue',sans-serif; font-size:2.5rem; color:rgba(255,107,53,.4); letter-spacing:4px;">SUNSET</div>
+        </div>
+      </div>
+      <div class="vibe-overlay"></div>
+      <span class="neon-tag nt-yellow">Favorito</span>
+      <div class="vibe-label">
+        <strong>Happy Hour</strong>
+        <span>Martes a Jueves · 5PM – 7PM</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- CTA -->
+<section id="cta">
+  <div class="star-deco" style="top:-2rem;right:8%;">✦</div>
+  <div class="star-deco" style="bottom:-2rem;left:5%;animation-direction:reverse;">✦</div>
+  <p class="section-tag" style="font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:3px;color:var(--pastel-yellow);text-transform:uppercase;margin-bottom:1rem;">04 — Llégate</p>
+  <h2 class="cta-title">
+    EL <span style="background:linear-gradient(135deg,var(--neon-pink),var(--neon-purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;">VERANO</span><br>ES AQUÍ
+  </h2>
+  <p class="cta-sub">Reserva tu mesa y vive el vibe 🌴</p>
+  <div class="hero-btns">
+    <button class="btn-primary">Reservar Ahora</button>
+    <button class="btn-ghost">Ver Ubicación</button>
+  </div>
+  <div class="social-row">
+    <a class="social-pill sp-pink" href="#">@losvichos</a>
+    <a class="social-pill sp-ocean" href="#">TikTok</a>
+    <a class="social-pill sp-pink" href="#">Instagram</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Los Vichos</div>
+  <p>© 2025 Los Vichos · Sabor Sin Filtro · Todos los derechos reservados</p>
+  <p style="color:rgba(255,245,240,.2);">Lun – Dom · 12PM – 11PM</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); } });
+  }, { threshold: 0.12 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
